@@ -31,6 +31,9 @@ def parse_markdown_to_ics(lines, start_date):
                 continue
 
             start_str, end_str = times[0].strip(), times[1].strip()
+            start_str = re.sub(r"\*\*", "", start_str)  # Remove extra characters
+            end_str = re.sub(r"\*\*", "", end_str)      # Remove extra characters
+
             start_dt = datetime.strptime(start_str, "%H:%M")
             end_dt = datetime.strptime(end_str, "%H:%M")
 
@@ -54,109 +57,36 @@ def parse_markdown_to_ics(lines, start_date):
     return cal
 
 if __name__ == "__main__":
-    markdown_text = """## Monday
-| Time         | Activity                                               |
-|--------------|--------------------------------------------------------|
-| 05:30–06:00  | Wake up, light breakfast.                              |
-| 06:00–07:00  | Optional: Short run or yoga, followed by a shower.     |
-| 07:00–07:30  | Prep and leave for bus (or bike commute if weather permits). |
-| 08:30–13:00  | Internship work.                                       |
-| 13:00–13:30  | Lunch break (optional walk in the park).               |
-| 13:30–16:30  | Internship work.                                       |
-| 16:30–17:30  | Commute home and wind down.                            |
-| 17:30–18:30  | Relaxation (yoga or "do nothing" time).                |
-| 18:30–19:30  | Dinner.                                                |
-| 19:30–21:30  | Gaming (daily 2-hour session can start here if preferred). |
-| 21:30–22:30  | Social time (2–3 evenings) or gaming/relaxation.       |
-| 22:30–23:00  | Wind down and sleep preparation.                       |
+    markdown_text = """
+## **Saturday**
+| **Time**         | **Activity**                                               |
+|------------------|-----------------------------------------------------------|
+| **09:00–12:00**  | Work on the plugin: Continue development, set up tests, and CI/CD. |
+| **12:00–13:00**  | Lunch break. Short walk or light exercise.                |
+| **13:00–16:00**  | Functional and technical design of the plugin.            |
+| **16:00–16:30**  | Short break: Snack, stretch, or meditate.                 |
+| **16:30–18:30**  | Work out use cases and develop tests according to use cases. |
+| **18:30–19:30**  | Dinner and relaxation.                                    |
+| **19:30–21:00**  | Work out the documentation further. Update project documentation. |
+| **21:00–22:00**  | Relaxation: Hobby, show, or light reading.                |
+| **22:00–23:00**  | Wind down and sleep preparation.                          |
 
-## Tuesday
-| Time         | Activity                                               |
-|--------------|--------------------------------------------------------|
-| 05:30–06:00  | Wake up, light breakfast.                              |
-| 06:00–07:00  | Optional: Short run or yoga, followed by a shower.     |
-| 07:00–07:30  | Prep and leave for bus (or bike commute if weather permits). |
-| 08:30–13:00  | Internship work.                                       |
-| 13:00–13:30  | Lunch break (optional walk in the park).               |
-| 13:30–16:30  | Internship work.                                       |
-| 16:30–17:30  | Commute home and wind down.                            |
-| 17:30–18:30  | Relaxation (yoga or "do nothing" time).                |
-| 18:30–19:30  | Dinner.                                                |
-| 19:30–21:30  | Gaming (daily 2-hour session can start here if preferred). |
-| 21:30–22:30  | Social time (2–3 evenings) or gaming/relaxation.       |
-| 22:30–23:00  | Wind down and sleep preparation.                       |
-
-## Wednesday
-| Time         | Activity                                               |
-|--------------|--------------------------------------------------------|
-| 05:30–06:00  | Wake up, light breakfast.                              |
-| 06:00–07:00  | Optional: Short run or yoga, followed by a shower.     |
-| 07:00–07:30  | Prep and leave for bus (or bike commute if weather permits). |
-| 08:30–13:00  | Internship work.                                       |
-| 13:00–13:30  | Lunch break (optional walk in the park).               |
-| 13:30–16:30  | Internship work.                                       |
-| 16:30–17:30  | Commute home and wind down.                            |
-| 17:30–18:30  | Relaxation (yoga or "do nothing" time).                |
-| 18:30–19:30  | Dinner.                                                |
-| 19:30–21:30  | Gaming (daily 2-hour session can start here if preferred). |
-| 21:30–22:30  | Social time (2–3 evenings) or gaming/relaxation.       |
-| 22:30–23:00  | Wind down and sleep preparation.                       |
-
-## Thursday
-| Time         | Activity                                               |
-|--------------|--------------------------------------------------------|
-| 05:30–06:00  | Wake up, light breakfast.                              |
-| 06:00–07:00  | Optional: Short run or yoga, followed by a shower.     |
-| 07:00–07:30  | Prep and leave for bus (or bike commute if weather permits). |
-| 08:30–13:00  | Internship work.                                       |
-| 13:00–13:30  | Lunch break (optional walk in the park).               |
-| 13:30–16:30  | Internship work.                                       |
-| 16:30–17:30  | Commute home and wind down.                            |
-| 17:30–18:30  | Relaxation (yoga or "do nothing" time).                |
-| 18:30–19:30  | Dinner.                                                |
-| 19:30–21:30  | Gaming (daily 2-hour session can start here if preferred). |
-| 21:30–22:30  | Social time (2–3 evenings) or gaming/relaxation.       |
-| 22:30–23:00  | Wind down and sleep preparation.                       |
-
-## Friday
-| Time         | Activity                                               |
-|--------------|--------------------------------------------------------|
-| 05:30–06:00  | Wake up, light breakfast.                              |
-| 06:00–07:00  | Optional: Short run or yoga, followed by a shower.     |
-| 07:00–07:30  | Prep and leave for bus (or bike commute if weather permits). |
-| 08:30–13:00  | Internship work.                                       |
-| 13:00–13:30  | Lunch break (optional walk in the park).               |
-| 13:30–16:30  | Internship work.                                       |
-| 16:30–17:30  | Commute home and wind down.                            |
-| 17:30–18:30  | Relaxation (yoga or "do nothing" time).                |
-| 18:30–19:30  | Dinner.                                                |
-| 19:30–21:30  | Gaming (daily 2-hour session can start here if preferred). |
-| 21:30–22:30  | Social time (2–3 evenings) or gaming/relaxation.       |
-| 22:30–23:00  | Wind down and sleep preparation.                       |
-
-## Saturday
-| Time         | Activity                                               |
-|--------------|--------------------------------------------------------|
-| 07:00–09:00  | Wake up, breakfast, and morning relaxation.            |
-| 09:00–18:00  | Flexible block for sports (cycling, swimming, climbing, or hiking), hobbies, or social time. |
-| 18:00–20:00  | Dinner with friends or family.                         |
-| 20:00–00:00    | Longer gaming session or social time.                  |
-
-## Sunday
-| Time         | Activity                                               |
-|--------------|--------------------------------------------------------|
-| 07:30–08:00  | Wake up and breakfast.                                 |
-| 08:00–09:00  | Prep and head to the running club.                     |
-| 09:00–10:30  | Running club, followed by a shower.                    |
-| 10:30–12:30  | Relaxation or gaming.                                  |
-| 12:30–14:00  | Lunch.                                                 |
-| 14:00–18:00  | Social time with friends or family.                    |
-| 18:00–20:00  | Dinner.                                                |
-| 20:00–22:30  | Relaxation or another long gaming session.             |
+## **Sunday**
+| **Time**         | **Activity**                                               |
+|------------------|-----------------------------------------------------------|
+| **09:00–12:00**  | Work on database schemas and understand integration between NoSQL (Payload) and SQL (Medusa). |
+| **12:00–13:00**  | Lunch break. Short walk or light exercise.                |
+| **13:00–15:00**  | Continue documentation and prepare for publishing the plugin as an npm package. |
+| **15:00–15:30**  | Short break: Snack, stretch, or meditate.                 |
+| **15:30–17:30**  | Prepare and practice the demo.                            |
+| **17:30–18:30**  | Dinner and relaxation.                                    |
+| **18:30–20:00**  | Final adjustments to project and documentation.           |
+| **20:00–21:00**  | Relaxation: Hobby, show, or light reading.                |
+| **21:00–22:00**  | Wind down and sleep preparation.                          |
 """
     lines = markdown_text.split("\n")
-    # Example: Start on Monday
-    start_date = datetime(2025,1,6)
+    # Start date is today
+    start_date = datetime.today()
     cal = parse_markdown_to_ics(lines, start_date)
 
     with open("schedule.ics", "wb") as f:
